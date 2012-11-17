@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<regex>
+  <anything name="potato" occurance="+" />
+  <exactly name="smile" match="dillon" />
+</regex>
