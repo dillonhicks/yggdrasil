@@ -18,6 +18,7 @@ def preprocess(text):
     return lines
 
 
+
 def build_data(lines):
     current_section = ""
     data = {}
@@ -37,6 +38,7 @@ def build_data(lines):
     return data
 
 
+
 def build_xml(data):
     root = ET.Element("CitationData")
     for section, elems in data.items():
@@ -44,7 +46,13 @@ def build_xml(data):
         sect_node.set("id", section);
         for cite in elems['citations']:
             cite_node = ET.SubElement(sect_node, "Citation")
+
+            if cite.endswith('*'): 
+                cite = cite[:-1]
+                cite_node.set("comment", "True")
+
             cite_node.text = cite
+
         for comment in elems['comments']:
             comment_node = ET.SubElement(sect_node, "Comment")
             comment_node.text = comment
@@ -309,26 +317,6 @@ United States v. Myers, 25 M.J. 573 (A.F.C.M.R. 1987), petition denied, 27 M.J. 
 
 United States v. Young, 24 M.J. 626 (A.C.M.R. 1987).
 
- 
-
-State Case Citations:
-
-In states where a citation variant appears against a different background there is a distinct case citation format used within the jurisdiction by state courts and those submitting memoranda or briefs to them.
-
-Alabama	Illinois	Montana	Rhode Island
-Alaska	Indiana	Nebraska	South Carolina
-Arizona	Iowa	Nevada	South Dakota
-Arkansas	Kansas	New Hampshire	Tennessee
-California	Kentucky	New Jersey	Texas
-Colorado	Louisiana	New Mexico	Utah
-Connecticut	Maine	New York	Vermont
-Delaware	Maryland	North Carolina	Virginia
-District of Columbia	Massachusetts	North Dakota	Washington
-Florida	Michigan	Ohio	West Virginia
-Georgia	Minnesota	Oklahoma	Wisconsin
-Hawaii	Mississippi	Oregon	Wyoming
-Idaho	Missouri	Pennsylvania	 
- 
 
 Alabama	
 Se. Meats of Pelham, Inc. v. City of Birmingham, 895 So. 2d 909 (Ala. 2004).
