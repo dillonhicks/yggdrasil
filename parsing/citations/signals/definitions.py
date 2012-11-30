@@ -1,7 +1,7 @@
-# Structure and Use of Legal Citations: Signals
+# Structure and Use of Legal Citations: Introductory Signals
 #
 # Source: 
-#  The Bluebook 18th Ed. (2008). p45-46 (R1)
+#  The Bluebook 18th Ed. (2008). p45-48 (R1)
 #
 # Signals are used to intoduce authorities that support and contradict
 # a proposition. 
