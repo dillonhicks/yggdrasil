@@ -2,7 +2,7 @@
 #   Order of Signals
 #
 # Source: 
-#  The Bluebook 18th Ed. (2008). p48 (R1)
+#  The Bluebook 18th Ed. (2008). p48-51 (R1)
 #
 # 
 
