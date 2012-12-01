@@ -41,7 +41,9 @@ def build_data(lines):
     data = {}
 
     for line in lines:
-        if not current_section or line in sections:
+        if not current_section or \
+                line in sections:
+
             current_section = line
             data[current_section] = {'citations' : [], 'comments' : []}
             continue
@@ -56,7 +58,12 @@ def build_data(lines):
 
 
 
+ONE_STAR = '*'
+TWO_STARS = '**'
 def build_xml(data):
+    """
+    Take the data dictionary and convert it to a sane XML representation.
+    """
     root = ET.Element("CitationData")
     root.set('type', 'case')
 
@@ -66,21 +73,38 @@ def build_xml(data):
         for cite in elems['citations']:
             cite_node = ET.SubElement(sect_node, "Citation")
 
-            if cite.endswith('*'): 
+            if cite.endswith(TWO_STARS): 
+                cite = cite[:-2]
+                cite_node.set("comment", "2")
+
+            elif cite.endswith(ONE_STAR): 
                 cite = cite[:-1]
-                cite_node.set("comment", "True")
+                cite_node.set("comment", "1")
+
 
             cite_node.text = cite
 
         for comment in elems['comments']:
             comment_node = ET.SubElement(sect_node, "Comment")
-            comment_node.text = comment
+
+            if comment.startswith(TWO_STARS):
+                comment_node.set('id', '2')
+                comment = comment[2:]
+            elif comment.startswith(ONE_STAR):
+                comment_node.set('id', '1')
+                comment = comment[1:]
+
+
+            comment_node.text = comment.strip()
             
     return root
 
 
 
-def get_text(filepath):
+def read_text(filepath):
+    """
+    Obtain the text string from the file at filepath.
+    """
     with open(filepath, 'r') as infile:
         text = infile.read()
     return text
@@ -88,6 +112,11 @@ def get_text(filepath):
 
 
 def write_xml(filepath, xml):
+    """
+    Write the xml to filepath.
+    
+    XML is the root element tree node.
+    """
     text = ET.tostring(xml, pretty_print=True, encoding="unicode")
 
     with open(filepath, 'w') as outfile:
@@ -97,7 +126,7 @@ def write_xml(filepath, xml):
 
 
 def main():
-    text = get_text(INFILE_NAME)
+    text = read_text(INFILE_NAME)
     lines = preprocess(text)
     data = build_data(lines)
     xml = build_xml(data)
